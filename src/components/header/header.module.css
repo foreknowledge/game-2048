@@ -1,0 +1,49 @@
+@value mainDark, textDark from '../../common/colors.css';
+
+.title {
+  text-align: center;
+  margin: 0;
+  font-size: 4rem;
+}
+
+.scores {
+  display: flex;
+}
+
+.score_box {
+  width: 100%;
+  height: fit-content;
+  padding: 0.3em 1.5em;
+  margin: 0.5em;
+  text-align: center;
+  background-color: mainDark;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.score_title {
+  color: textDark;
+}
+
+.score_value {
+  color: white;
+  font-size: 1.7rem;
+}
+
+.game_intro {
+  margin-top: 0.5em;
+  align-items: center;
+}
+
+.game_desc {
+  color: colorTextDark;
+}
+
+.btn_retry {
+  padding: 0.5em 0.8em;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: colorTextBright;
+  background-color: colorSub;
+  border-radius: 3px;
+}

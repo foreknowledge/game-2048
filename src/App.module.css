@@ -1,0 +1,23 @@
+@value mainLight from './common/colors.css';
+
+.container {
+  width: 30em;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+.footer {
+  margin-top: 2em;
+  text-align: center;
+}
+
+.btn_reset {
+  width: 50%;
+  padding: 0.6rem 0;
+  background-color: mainLight;
+  color: white;
+  font-weight: bold;
+  font-size: 1.3rem;
+  border-radius: 5px;
+}
