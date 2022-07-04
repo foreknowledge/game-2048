@@ -15,6 +15,8 @@ export default class Game {
   }
 
   move(direction: 'U' | 'D' | 'L' | 'R') {
+    const before = this.field.clone();
+
     switch (direction) {
       case 'U':
         this.moveUp();
@@ -29,7 +31,12 @@ export default class Game {
         this.moveRight();
         break;
     }
-    this.addCard(generateCard());
+
+    if (!this.field.equals(before)) {
+      // 이전과 상태가 달라진 경우에만 새로운 카드 추가
+      this.addCard(generateCard());
+    }
+
     this.printMap();
   }
 

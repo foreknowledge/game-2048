@@ -52,4 +52,21 @@ export default class Square<T> {
     }
     return allEmptyPos;
   }
+
+  clone(): Square<T> {
+    const data: (T | null)[][] = [];
+    this.getRows().forEach((items) => {
+      data.push([...items]);
+    });
+
+    const square = new Square<T>(this.size);
+    square.data = data;
+
+    return square;
+  }
+
+  equals(other: Square<T>): boolean {
+    const flatten = [...this.data.flat()];
+    return other.data.flat().every((item, idx) => flatten[idx] === item);
+  }
 }
