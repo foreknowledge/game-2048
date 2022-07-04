@@ -3,13 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Game from './service/game';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const game = new Game(4);
+game.init();
+
 root.render(
   <React.StrictMode>
-    <App />
+    <App game={game} />
   </React.StrictMode>
 );
 
