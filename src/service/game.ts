@@ -66,14 +66,14 @@ export default class Game {
     const N = cards.length;
 
     for (let i = 0; i < N - 1; i++) {
-      const card = cards[i];
+      const card = mergedCards[i];
       if (card === null) continue;
       for (let t = i + 1; t < N; t++) {
-        const other = cards[t];
+        const other = mergedCards[t];
         if (other === null) continue;
 
         if (card.num === other.num) {
-          card.num *= 2;
+          mergedCards[i] = { num: card.num * 2 };
           mergedCards[t] = null;
         }
         break;
