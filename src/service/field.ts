@@ -11,8 +11,8 @@ export default class Field {
   }
 
   init() {
-    this.addCard(generateCard());
-    this.addCard(generateCard());
+    this.addNewCard();
+    this.addNewCard();
     this.printMap();
   }
 
@@ -84,10 +84,10 @@ export default class Field {
   /**
    * 빈공간에 새로운 카드를 추가한다.
    */
-  addCard(card: Card) {
+  addNewCard() {
     const pos = this.square.getEmptyPos();
     const [row, col] = pos[getRandomInt(pos.length)];
-    this.square.setItem(row, col, card);
+    this.square.setItem(row, col, generateCard());
   }
 
   printMap() {

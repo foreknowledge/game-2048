@@ -1,4 +1,3 @@
-import { generateCard } from './card';
 import Field from './field';
 
 export default class Game {
@@ -32,7 +31,7 @@ export default class Game {
 
     if (!this.field.equals(before)) {
       // 이전과 상태가 달라진 경우에만 새로운 카드 추가
-      this.field.addCard(generateCard());
+      this.field.addNewCard();
     }
 
     this.field.printMap();
