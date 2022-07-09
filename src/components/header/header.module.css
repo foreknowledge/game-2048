@@ -10,7 +10,7 @@
   display: flex;
 }
 
-.score_box {
+.scoreBox {
   width: 100%;
   height: fit-content;
   padding: 0.3em 1.5em;
@@ -21,16 +21,16 @@
   border-radius: 5px;
 }
 
-.score_title {
+.scoreTitle {
   color: textDark;
 }
 
-.score_value {
+.scoreValue {
   color: white;
   font-size: 1.7rem;
 }
 
-.game_intro {
+.gameIntro {
   margin-top: 0.5em;
   align-items: center;
 }
@@ -39,7 +39,7 @@
   color: colorTextDark;
 }
 
-.btn_retry {
+.btnRetry {
   padding: 0.5em 0.8em;
   font-weight: bold;
   font-size: 1.2rem;

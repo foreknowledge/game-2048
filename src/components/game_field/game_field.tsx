@@ -3,7 +3,7 @@ import styles from './game_field.module.css';
 const GameField = () => {
   return (
     <section className={styles.gameField}>
-      <div className={styles.game_grid}></div>
+      <div className={styles.gameGrid}></div>
     </section>
   );
 };
