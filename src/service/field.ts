@@ -25,10 +25,12 @@ export default class Field {
   /**
    * 빈 공간에 새로운 카드를 추가한다.
    */
-  addNewCard() {
+  addNewCard(): Pos {
     const pos = this.square.getEmptyPos();
     const { row, col } = pos[getRandomInt(pos.length)];
     this.square.setItem(row, col, generateCard());
+
+    return { row, col };
   }
 
   isFull(): boolean {
@@ -43,6 +45,11 @@ export default class Field {
       .getRows()
       .flat()
       .filter((item): item is Card => item !== null);
+  }
+
+  getCardPos(cardId: number): Pos | undefined {
+    const card = this.getAllCards().find((card) => card.id === cardId);
+    return card && this.square.getPos(card);
   }
 
   clearMergeLogs() {

@@ -8,16 +8,16 @@ function App({ game }: { game: Game }) {
   const handleKeyDown = (e: KeyboardEvent) => {
     switch (e.key) {
       case 'ArrowUp':
-        game.move('U');
+        console.log(game.move('U'));
         break;
       case 'ArrowDown':
-        game.move('D');
+        console.log(game.move('D'));
         break;
       case 'ArrowLeft':
-        game.move('L');
+        console.log(game.move('L'));
         break;
       case 'ArrowRight':
-        game.move('R');
+        console.log(game.move('R'));
         break;
     }
   };

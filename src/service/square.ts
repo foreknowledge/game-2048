@@ -55,6 +55,16 @@ export default class Square<T> {
     return allEmptyPos;
   }
 
+  getPos(item: T): Pos | undefined {
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size; j++) {
+        if (this.getItem(i, j) === item) {
+          return { row: i, col: j };
+        }
+      }
+    }
+  }
+
   clone(): Square<T> {
     const data: (T | null)[][] = [];
     this.getRows().forEach((items) => {
