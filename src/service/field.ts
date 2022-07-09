@@ -1,9 +1,14 @@
 import { Card, generateCard } from './card';
 import Square from './square';
 
+export interface MergeLog {
+  cardIds: [number, number];
+}
+
 export default class Field {
   size: number;
   square: Square<Card>;
+  private mergeLogs: { [cid: number]: MergeLog } = {};
 
   constructor(size: number) {
     this.size = size;
@@ -14,6 +19,21 @@ export default class Field {
     this.addNewCard();
     this.addNewCard();
     this.printMap();
+  }
+
+  getAllCards(): Card[] {
+    return this.square
+      .getRows()
+      .flat()
+      .filter((item): item is Card => item !== null);
+  }
+
+  clearMergeLogs() {
+    this.mergeLogs = {};
+  }
+
+  getMergeLog(cardId: number): MergeLog {
+    return this.mergeLogs[cardId];
   }
 
   moveUp() {
@@ -56,8 +76,10 @@ export default class Field {
         if (other === null) continue;
 
         if (card.num === other.num) {
-          mergedCards[i] = generateCard(card.num * 2);
+          const newCard = generateCard(card.num * 2);
+          mergedCards[i] = newCard;
           mergedCards[t] = null;
+          this.mergeLogs[newCard.id] = { cardIds: [card.id, other.id] };
         }
         break;
       }

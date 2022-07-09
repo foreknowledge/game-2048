@@ -12,6 +12,8 @@ export default class Game {
   }
 
   move(direction: 'U' | 'D' | 'L' | 'R') {
+    // 한 턴이 끝나면 merge logs 초기화
+    this.field.clearMergeLogs();
     const before = this.field.clone();
 
     switch (direction) {
@@ -28,6 +30,12 @@ export default class Game {
         this.field.moveRight();
         break;
     }
+
+    // 현재 필드에 있는 모든 카드에 대해 merge log 조회
+    this.field.getAllCards().forEach((card) => {
+      const mergeLog = this.field.getMergeLog(card.id);
+      mergeLog && console.log(mergeLog.cardIds);
+    });
 
     if (this.field.isFull()) {
       // 게임 필드가 꽉 찼으면 게임 종료!
