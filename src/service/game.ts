@@ -29,6 +29,11 @@ export default class Game {
         break;
     }
 
+    if (this.field.isFull()) {
+      // 게임 필드가 꽉 찼으면 게임 종료!
+      return;
+    }
+
     if (!this.field.equals(before)) {
       // 이전과 상태가 달라진 경우에만 새로운 카드 추가
       this.field.addNewCard();

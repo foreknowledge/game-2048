@@ -82,12 +82,19 @@ export default class Field {
   }
 
   /**
-   * 빈공간에 새로운 카드를 추가한다.
+   * 빈 공간에 새로운 카드를 추가한다.
    */
   addNewCard() {
     const pos = this.square.getEmptyPos();
     const [row, col] = pos[getRandomInt(pos.length)];
     this.square.setItem(row, col, generateCard());
+  }
+
+  isFull(): boolean {
+    return this.square
+      .getRows()
+      .flat()
+      .every((item) => item !== null);
   }
 
   printMap() {
