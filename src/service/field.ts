@@ -21,6 +21,22 @@ export default class Field {
     this.printMap();
   }
 
+  /**
+   * 빈 공간에 새로운 카드를 추가한다.
+   */
+  addNewCard() {
+    const pos = this.square.getEmptyPos();
+    const [row, col] = pos[getRandomInt(pos.length)];
+    this.square.setItem(row, col, generateCard());
+  }
+
+  isFull(): boolean {
+    return this.square
+      .getRows()
+      .flat()
+      .every((item) => item !== null);
+  }
+
   getAllCards(): Card[] {
     return this.square
       .getRows()
@@ -101,22 +117,6 @@ export default class Field {
 
   private alignRight(cards: (Card | null)[]): (Card | null)[] {
     return this.alignLeft(cards.reverse()).reverse();
-  }
-
-  /**
-   * 빈 공간에 새로운 카드를 추가한다.
-   */
-  addNewCard() {
-    const pos = this.square.getEmptyPos();
-    const [row, col] = pos[getRandomInt(pos.length)];
-    this.square.setItem(row, col, generateCard());
-  }
-
-  isFull(): boolean {
-    return this.square
-      .getRows()
-      .flat()
-      .every((item) => item !== null);
   }
 
   printMap() {
