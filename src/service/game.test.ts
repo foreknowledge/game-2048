@@ -1,11 +1,16 @@
-import { Card } from './card';
+import { Card, generateCard } from './card';
 import Game from './game';
 import Square from './square';
 
 describe('Testing move() in Game', () => {
   test('moveUp', () => {
     const square = new Square<Card>(4);
-    square.setCol(0, [{ num: 2 }, { num: 2 }, { num: 2 }, { num: 2 }]);
+    square.setCol(0, [
+      generateCard(2),
+      generateCard(2),
+      generateCard(2),
+      generateCard(2),
+    ]);
 
     const game = new Game(4);
     game.field.square = square;
@@ -16,7 +21,12 @@ describe('Testing move() in Game', () => {
 
   test('moveDown', () => {
     const square = new Square<Card>(4);
-    square.setCol(0, [{ num: 2 }, { num: 2 }, { num: 2 }, { num: 2 }]);
+    square.setCol(0, [
+      generateCard(2),
+      generateCard(2),
+      generateCard(2),
+      generateCard(2),
+    ]);
 
     const game = new Game(4);
     game.field.square = square;
@@ -27,7 +37,12 @@ describe('Testing move() in Game', () => {
 
   test('moveLeft', () => {
     const square = new Square<Card>(4);
-    square.setRow(0, [{ num: 2 }, { num: 2 }, { num: 2 }, { num: 2 }]);
+    square.setRow(0, [
+      generateCard(2),
+      generateCard(2),
+      generateCard(2),
+      generateCard(2),
+    ]);
 
     const game = new Game(4);
     game.field.square = square;
@@ -38,7 +53,12 @@ describe('Testing move() in Game', () => {
 
   test('moveRight', () => {
     const square = new Square<Card>(4);
-    square.setRow(0, [{ num: 2 }, { num: 2 }, { num: 2 }, { num: 2 }]);
+    square.setRow(0, [
+      generateCard(2),
+      generateCard(2),
+      generateCard(2),
+      generateCard(2),
+    ]);
 
     const game = new Game(4);
     game.field.square = square;

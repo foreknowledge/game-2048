@@ -1,13 +1,18 @@
 export interface Card {
+  id: number;
   num: number;
 }
 
-export function generateCard(): Card {
+let genCount = 0;
+
+export function generateCard(num?: number): Card {
+  const id = ++genCount;
+
   const random = getRandomInt(10);
   // 10% 확률로 4, 90% 확률로 2
-  const num = random < 1 ? 4 : 2;
+  const randomNum = random < 1 ? 4 : 2;
 
-  return { num };
+  return { id, num: num ?? randomNum };
 }
 
 function getRandomInt(max: number): number {

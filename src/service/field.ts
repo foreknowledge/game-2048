@@ -56,7 +56,7 @@ export default class Field {
         if (other === null) continue;
 
         if (card.num === other.num) {
-          mergedCards[i] = { num: card.num * 2 };
+          mergedCards[i] = generateCard(card.num * 2);
           mergedCards[t] = null;
         }
         break;
