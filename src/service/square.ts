@@ -1,3 +1,5 @@
+import Pos from './pos';
+
 export default class Square<T> {
   size: number;
   data: (T | null)[][];
@@ -41,12 +43,12 @@ export default class Square<T> {
     return [...Array(this.size).keys()].map((i) => this.getCol(i));
   }
 
-  getEmptyPos(): [number, number][] {
-    const allEmptyPos: [number, number][] = [];
+  getEmptyPos(): Pos[] {
+    const allEmptyPos: Pos[] = [];
     for (let i = 0; i < this.size; i++) {
       for (let j = 0; j < this.size; j++) {
         if (this.getItem(i, j) === null) {
-          allEmptyPos.push([i, j]);
+          allEmptyPos.push({ row: i, col: j });
         }
       }
     }

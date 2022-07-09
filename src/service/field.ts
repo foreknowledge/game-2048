@@ -1,4 +1,5 @@
 import { Card, generateCard } from './card';
+import Pos from './pos';
 import Square from './square';
 
 export interface MergeLog {
@@ -26,7 +27,7 @@ export default class Field {
    */
   addNewCard() {
     const pos = this.square.getEmptyPos();
-    const [row, col] = pos[getRandomInt(pos.length)];
+    const { row, col } = pos[getRandomInt(pos.length)];
     this.square.setItem(row, col, generateCard());
   }
 
