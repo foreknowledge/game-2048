@@ -13,7 +13,7 @@ export default class Game {
     this.field.init();
   }
 
-  move(direction: 'U' | 'D' | 'L' | 'R') {
+  move(direction: 'U' | 'D' | 'L' | 'R'): [Field, Field] {
     // 한 턴이 끝나면 merge logs 초기화
     this.field.clearMergeLogs();
 
@@ -36,6 +36,8 @@ export default class Game {
     }
 
     this.field.printMap();
+
+    return [before, this.field];
   }
 
   private moveField(direction: 'U' | 'D' | 'L' | 'R') {
