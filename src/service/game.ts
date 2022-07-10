@@ -4,6 +4,7 @@ import Field from './field';
 export default class Game {
   field: Field;
   totScore = 0;
+  bestScore = 0;
 
   constructor(size: number) {
     this.field = new Field(size);
@@ -19,28 +20,15 @@ export default class Game {
 
     const before = this.field.clone();
 
-    switch (direction) {
-      case 'U':
-        this.field.moveUp();
-        break;
-      case 'D':
-        this.field.moveDown();
-        break;
-      case 'L':
-        this.field.moveLeft();
-        break;
-      case 'R':
-        this.field.moveRight();
-        break;
-    }
+    this.moveField(direction);
 
     // 점수 계산
     const score = this.calcScore();
-    score && (this.totScore += score);
-
-    if (this.field.isFull()) {
-      // 게임 필드가 꽉 찼으면 게임 종료!
-      return [];
+    if (score) {
+      this.totScore += score;
+      if (this.bestScore < this.totScore) {
+        this.bestScore = this.totScore;
+      }
     }
 
     // merge log 분석해서 actions 생성
@@ -55,6 +43,23 @@ export default class Game {
     this.field.printMap();
 
     return actions;
+  }
+
+  private moveField(direction: 'U' | 'D' | 'L' | 'R') {
+    switch (direction) {
+      case 'U':
+        this.field.moveUp();
+        break;
+      case 'D':
+        this.field.moveDown();
+        break;
+      case 'L':
+        this.field.moveLeft();
+        break;
+      case 'R':
+        this.field.moveRight();
+        break;
+    }
   }
 
   private calcScore(): number {

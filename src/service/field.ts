@@ -33,13 +33,6 @@ export default class Field {
     return { row, col };
   }
 
-  isFull(): boolean {
-    return this.square
-      .getRows()
-      .flat()
-      .every((item) => item !== null);
-  }
-
   getAllCards(): Card[] {
     return this.square
       .getRows()
