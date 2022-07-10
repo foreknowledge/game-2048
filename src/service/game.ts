@@ -1,4 +1,3 @@
-import { Action } from './action';
 import Field from './field';
 
 export default class Game {
@@ -14,7 +13,7 @@ export default class Game {
     this.field.init();
   }
 
-  move(direction: 'U' | 'D' | 'L' | 'R'): Action[] {
+  move(direction: 'U' | 'D' | 'L' | 'R') {
     // 한 턴이 끝나면 merge logs 초기화
     this.field.clearMergeLogs();
 
@@ -31,18 +30,12 @@ export default class Game {
       }
     }
 
-    // merge log 분석해서 actions 생성
-    const actions = this.analyzeMergeLog(before);
-
     if (!this.field.equals(before)) {
       // 이전과 상태가 달라진 경우에만 새로운 카드 추가
-      const pos = this.field.addNewCard();
-      actions.push({ type: 'new', at: pos });
+      this.field.addNewCard();
     }
 
     this.field.printMap();
-
-    return actions;
   }
 
   private moveField(direction: 'U' | 'D' | 'L' | 'R') {
@@ -71,29 +64,5 @@ export default class Game {
         else return 0;
       })
       .reduce((sum, current) => sum + current);
-  }
-
-  private analyzeMergeLog(before: Field): Action[] {
-    const result: Action[] = [];
-
-    this.field.getAllCards().forEach((card) => {
-      const mergeLog = this.field.getMergeLog(card.id);
-
-      if (mergeLog) {
-        const [cardId1, cardId2] = mergeLog.cardIds;
-        const from1 = before.getCardPos(cardId1)!;
-        const from2 = before.getCardPos(cardId2)!;
-        const to = this.field.getCardPos(card.id)!;
-
-        result.push({ type: 'merge', from1, from2, to });
-      } else {
-        const from = before.getCardPos(card.id)!;
-        const to = this.field.getCardPos(card.id)!;
-
-        result.push({ type: 'move', from, to });
-      }
-    });
-
-    return result;
   }
 }
