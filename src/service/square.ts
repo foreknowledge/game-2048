@@ -9,12 +9,12 @@ export default class Square<T> {
     this.data = Array.from(Array(size), () => Array(size).fill(null));
   }
 
-  getItem(row: number, col: number): T | null {
-    return this.data[row][col];
+  getItem(pos: Pos): T | null {
+    return this.data[pos.row][pos.col];
   }
 
-  setItem(row: number, col: number, item: T | null) {
-    this.data[row][col] = item;
+  setItem(pos: Pos, item: T | null) {
+    this.data[pos.row][pos.col] = item;
   }
 
   getRow(row: number): (T | null)[] {
@@ -47,8 +47,9 @@ export default class Square<T> {
     const allEmptyPos: Pos[] = [];
     for (let i = 0; i < this.size; i++) {
       for (let j = 0; j < this.size; j++) {
-        if (this.getItem(i, j) === null) {
-          allEmptyPos.push({ row: i, col: j });
+        const pos = { row: i, col: j };
+        if (this.getItem(pos) === null) {
+          allEmptyPos.push(pos);
         }
       }
     }
@@ -58,8 +59,9 @@ export default class Square<T> {
   getPos(item: T): Pos | undefined {
     for (let i = 0; i < this.size; i++) {
       for (let j = 0; j < this.size; j++) {
-        if (this.getItem(i, j) === item) {
-          return { row: i, col: j };
+        const pos = { row: i, col: j };
+        if (this.getItem(pos) === item) {
+          return pos;
         }
       }
     }

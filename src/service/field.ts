@@ -26,11 +26,11 @@ export default class Field {
    * 빈 공간에 새로운 카드를 추가한다.
    */
   addNewCard(): Pos {
-    const pos = this.square.getEmptyPos();
-    const { row, col } = pos[getRandomInt(pos.length)];
-    this.square.setItem(row, col, generateCard());
+    const positions = this.square.getEmptyPos();
+    const pos = positions[getRandomInt(positions.length)];
+    this.square.setItem(pos, generateCard());
 
-    return { row, col };
+    return pos;
   }
 
   getAllCards(): Card[] {
