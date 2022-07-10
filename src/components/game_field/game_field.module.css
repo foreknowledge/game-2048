@@ -1,8 +1,8 @@
-@value tileBG from '../../common/colors.css';
+@value tileBG, tile0 from '../../common/colors.css';
 
 .gameField {
   margin-top: 2em;
-  padding: 1em;
+  padding: 1em 0 0 1em;
   background-color: tileBG;
   border-radius: 10px;
   aspect-ratio: 1;
@@ -11,4 +11,13 @@
 .gameGrid {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.gameTile {
+  flex: 1 1 20%;
+  margin: 0 1em 1em 0;
+  background-color: tile0;
+  border-radius: 3px;
 }
