@@ -8,7 +8,7 @@ export interface MergeLog {
 
 export default class Field {
   size: number;
-  square: Square<Card>;
+  private square: Square<Card>;
   private mergeLogs: { [cid: number]: MergeLog } = {};
 
   constructor(size: number) {
@@ -17,18 +17,26 @@ export default class Field {
   }
 
   init() {
-    this.addNewCard();
-    this.addNewCard();
+    this.addRandomCard();
+    this.addRandomCard();
     this.printMap();
   }
 
   /**
    * 빈 공간에 새로운 카드를 추가한다.
    */
-  addNewCard() {
+  addRandomCard() {
     const positions = this.square.getEmptyPos();
     const pos = positions[getRandomInt(positions.length)];
     this.square.setItem(pos, generateCard());
+  }
+
+  getCard(pos: Pos): Card | null {
+    return this.square.getItem(pos);
+  }
+
+  setCard(card: Card, pos: Pos) {
+    this.square.setItem(pos, card);
   }
 
   getAllCards(): Card[] {

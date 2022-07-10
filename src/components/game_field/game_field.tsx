@@ -41,7 +41,7 @@ const GameField = ({ game }: { game: Game }) => {
   return (
     <section className={styles.gameField}>
       <div className={styles.gameGrid}>
-        {[...Array(game.field.size * game.field.size).keys()].map((i) => (
+        {[...Array(game.size * game.size).keys()].map((i) => (
           <div key={i} className={styles.gameTile} />
         ))}
       </div>
