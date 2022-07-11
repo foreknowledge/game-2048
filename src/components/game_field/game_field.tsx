@@ -4,7 +4,10 @@ import styles from './game_field.module.css';
 const GameField = ({ field }: { field: Field }) => {
   return (
     <section className={styles.gameField}>
-      <div className={styles.gameGrid}>
+      <div
+        className={styles.gameGrid}
+        style={{ gridTemplateColumns: `repeat(${field.size} ,1fr)` }}
+      >
         {[...Array(field.size * field.size).keys()].map((i) => (
           <div key={i} className={styles.gameTile} />
         ))}
