@@ -2,17 +2,19 @@ import Field from './field';
 
 export default class Game {
   private field: Field;
-  size: number;
   totScore = 0;
   bestScore = 0;
 
   constructor(size: number) {
-    this.size = size;
     this.field = new Field(size);
   }
 
   init() {
     this.field.init();
+  }
+
+  getField(): Field {
+    return this.field;
   }
 
   move(direction: 'U' | 'D' | 'L' | 'R'): [Field, Field] {
