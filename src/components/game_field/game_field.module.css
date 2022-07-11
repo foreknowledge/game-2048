@@ -1,6 +1,7 @@
 @value tileBG, tile0 from '../../common/colors.css';
 
 .gameField {
+  position: relative;
   margin-top: 2em;
   padding: 1em 0 0 1em;
   background-color: tileBG;
@@ -18,4 +19,15 @@
   margin: 0 1em 1em 0;
   background-color: tile0;
   border-radius: 3px;
+}
+
+.card {
+  position: absolute;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background-color: yellow;
 }
