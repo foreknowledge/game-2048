@@ -37,10 +37,6 @@ export default class Game {
     this.field.addRandomCard();
   }
 
-  printMap() {
-    this.field.printMap();
-  }
-
   private moveField(direction: 'U' | 'D' | 'L' | 'R') {
     switch (direction) {
       case 'U':

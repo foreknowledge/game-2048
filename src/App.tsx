@@ -31,8 +31,6 @@ function App({ game }: { game: Game }) {
       if (!field.equals(game.getField())) {
         game.addRandomCard();
         setField(game.getField().clone());
-
-        game.printMap();
       }
     }
   };

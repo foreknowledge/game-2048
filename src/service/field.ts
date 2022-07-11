@@ -19,7 +19,6 @@ export default class Field {
   init() {
     this.addRandomCard();
     this.addRandomCard();
-    this.printMap();
   }
 
   /**
@@ -124,15 +123,6 @@ export default class Field {
 
   private alignRight(cards: (Card | null)[]): (Card | null)[] {
     return this.alignLeft(cards.reverse()).reverse();
-  }
-
-  printMap() {
-    console.log(
-      this.square
-        .getRows()
-        .map((row) => row.map((item) => item?.num ?? 0))
-        .join('\n')
-    );
   }
 
   clone(): Field {
