@@ -17,11 +17,9 @@ export default class Game {
     return this.field;
   }
 
-  move(direction: 'U' | 'D' | 'L' | 'R'): [Field, Field] {
+  move(direction: 'U' | 'D' | 'L' | 'R') {
     // 한 턴이 끝나면 merge logs 초기화
     this.field.clearMergeLogs();
-
-    const before = this.field.clone();
 
     this.moveField(direction);
 
@@ -33,15 +31,14 @@ export default class Game {
         this.bestScore = this.totScore;
       }
     }
+  }
 
-    if (!this.field.equals(before)) {
-      // 이전과 상태가 달라진 경우에만 새로운 카드 추가
-      this.field.addRandomCard();
-    }
+  addRandomCard() {
+    this.field.addRandomCard();
+  }
 
+  printMap() {
     this.field.printMap();
-
-    return [before, this.field];
   }
 
   private moveField(direction: 'U' | 'D' | 'L' | 'R') {

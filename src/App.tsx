@@ -26,6 +26,14 @@ function App({ game }: { game: Game }) {
 
     if (direction) {
       game.move(direction);
+
+      // 이동한 경우
+      if (!field.equals(game.getField())) {
+        game.addRandomCard();
+        setField(game.getField().clone());
+
+        game.printMap();
+      }
     }
   };
 
