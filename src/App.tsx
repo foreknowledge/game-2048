@@ -25,12 +25,12 @@ function App({ game }: { game: Game }) {
     }
 
     if (direction) {
-      game.move(direction);
+      const [before, after] = game.move(direction);
 
-      // 이동한 경우
-      if (!field.equals(game.getField())) {
+      // 이동한 경우에만 새로운 카드 추가
+      if (!before.equals(after)) {
         game.addRandomCard();
-        setField(game.getField().clone());
+        setField(after.clone());
       }
     }
   };

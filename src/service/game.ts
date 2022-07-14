@@ -17,10 +17,11 @@ export default class Game {
     return this.field;
   }
 
-  move(direction: 'U' | 'D' | 'L' | 'R') {
+  move(direction: 'U' | 'D' | 'L' | 'R'): [Field, Field] {
     // 한 턴이 끝나면 merge logs 초기화
     this.field.clearMergeLogs();
 
+    const before = this.field.clone();
     this.moveField(direction);
 
     // 점수 계산
@@ -31,6 +32,8 @@ export default class Game {
         this.bestScore = this.totScore;
       }
     }
+
+    return [before, this.field];
   }
 
   addRandomCard() {
