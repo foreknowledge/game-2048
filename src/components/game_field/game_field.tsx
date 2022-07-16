@@ -12,19 +12,38 @@ const GameField = ({ field }: { field: Field }) => {
     if (!gridRef.current) return;
 
     const grid = gridRef.current;
-    const newUICards = field.getAllCards().map((card) => {
+    const mergedUICards: UICard[] = [];
+    const newUICards: UICard[] = field.getAllCards().map((card) => {
       const { row, col } = field.getCardPos(card.id)!;
       const tile = grid.children[row * field.size + col] as HTMLElement;
 
+      const mergeLog = field.getMergeLog(card.id);
+      if (mergeLog) {
+        mergeLog.cardIds.forEach((id) => {
+          const prevUICard = uiCards.find((uiCard) => uiCard.id === id)!;
+          mergedUICards.push({
+            ...prevUICard,
+            top: tile.offsetTop,
+            left: tile.offsetLeft,
+            size: tileSize,
+            type: 'move',
+          });
+        });
+      }
+
+      const prevUICard = uiCards.find((uiCard) => uiCard.id === card.id);
+      // New or Merged
       return {
         top: tile.offsetTop,
         left: tile.offsetLeft,
         size: tileSize,
         id: card.id,
         num: card.num,
+        type: prevUICard ? 'move' : mergeLog ? 'merge' : 'new',
       };
     });
-    setUICards(newUICards);
+
+    setUICards([...mergedUICards, ...newUICards]);
   }, [gridRef.current, field]);
 
   useLayoutEffect(() => {
@@ -32,7 +51,7 @@ const GameField = ({ field }: { field: Field }) => {
     const newTileSize =
       gridRef.current?.children[0].getBoundingClientRect().width ?? 0;
     setTileSize(newTileSize);
-  });
+  }, []);
 
   return (
     <section className={styles.gameField}>

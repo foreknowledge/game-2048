@@ -128,6 +128,7 @@ export default class Field {
   clone(): Field {
     const field = new Field(this.size);
     field.square = this.square.clone();
+    field.mergeLogs = { ...this.mergeLogs };
     return field;
   }
 

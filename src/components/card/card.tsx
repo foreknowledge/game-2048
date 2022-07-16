@@ -6,12 +6,17 @@ export type UICard = {
   size: number;
   id: number;
   num: number;
+  type: 'new' | 'move' | 'merge';
 };
 
 const Card = ({ uiCard }: { uiCard: UICard }) => {
+  const newAnim = uiCard.type === 'new' ? styles.appear : '';
+  const mergeAnim = uiCard.type === 'merge' ? styles.merge : '';
   return (
     <div
-      className={`${styles.card} ${getCardStyle(uiCard.num)} `}
+      className={`${styles.card} ${getCardStyle(
+        uiCard.num
+      )} ${newAnim} ${mergeAnim}`}
       style={{
         top: uiCard.top,
         left: uiCard.left,
