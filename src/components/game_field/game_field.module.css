@@ -1,4 +1,4 @@
-@value tileBG, tile0TextDark, tileTextLight, tile0, tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9, tile10 from '../../common/colors.css';
+@value tileBG, tile0 from '../../common/colors.css';
 
 .gameField {
   position: relative;
@@ -19,71 +19,4 @@
   margin: 0 1em 1em 0;
   background-color: tile0;
   border-radius: 3px;
-}
-
-.card {
-  position: absolute;
-  border-radius: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 2.5rem;
-  font-weight: bold;
-}
-
-.level1,
-.level2,
-.level3,
-.level4,
-.level5 {
-  color: tileTextDark;
-}
-
-.level6,
-.level7,
-.level8,
-.level9,
-.level10 {
-  color: tileTextLight;
-}
-
-.level1 {
-  background-color: tile1;
-}
-
-.level2 {
-  background-color: tile2;
-}
-
-.level3 {
-  background-color: tile3;
-}
-
-.level4 {
-  background-color: tile4;
-}
-
-.level5 {
-  background-color: tile5;
-}
-
-.level6 {
-  background-color: tile6;
-}
-
-.level7 {
-  background-color: tile7;
-}
-
-.level8 {
-  background-color: tile8;
-}
-
-.level9 {
-  background-color: tile9;
-}
-
-.level10 {
-  background-color: tile10;
-  font-size: 2rem;
 }
