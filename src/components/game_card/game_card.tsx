@@ -1,4 +1,4 @@
-import styles from './card.module.css';
+import styles from './game_card.module.css';
 
 export type UICard = {
   top: number;
@@ -9,7 +9,7 @@ export type UICard = {
   type: 'new' | 'move' | 'merge';
 };
 
-const Card = ({ uiCard }: { uiCard: UICard }) => {
+const GameCard = ({ uiCard }: { uiCard: UICard }) => {
   const newAnim = uiCard.type === 'new' ? styles.appear : '';
   const mergeAnim = uiCard.type === 'merge' ? styles.merge : '';
   return (
@@ -29,7 +29,7 @@ const Card = ({ uiCard }: { uiCard: UICard }) => {
   );
 };
 
-export default Card;
+export default GameCard;
 
 function getCardStyle(num: number): string {
   switch (num) {

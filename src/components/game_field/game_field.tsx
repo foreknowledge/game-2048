@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Field from '../../service/field';
-import Card, { UICard } from '../card/card';
+import GameCard, { UICard } from '../game_card/game_card';
 import styles from './game_field.module.css';
 
 const GameField = ({ field }: { field: Field }) => {
@@ -65,7 +65,7 @@ const GameField = ({ field }: { field: Field }) => {
         ))}
       </div>
       {uiCards.map((uiCard) => (
-        <Card key={uiCard.id} uiCard={uiCard} />
+        <GameCard key={uiCard.id} uiCard={uiCard} />
       ))}
     </section>
   );
