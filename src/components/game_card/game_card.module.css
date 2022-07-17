@@ -8,7 +8,7 @@
   align-items: center;
   font-size: 2.5rem;
   font-weight: bold;
-  transition: all 200ms ease-out;
+  transition: all 100ms ease-out;
 }
 
 .appear {
@@ -19,7 +19,7 @@
   0% {
     transform: scale(0);
   }
-  50% {
+  30% {
     transform: scale(0);
   }
   100% {
@@ -33,19 +33,15 @@
 
 @keyframes merge {
   0% {
-    opacity: 0;
-    transform: scale(1);
+    transform: scale(0);
   }
-  50% {
-    opacity: 0;
-    transform: scale(1);
+  30% {
+    transform: scale(0);
   }
-  80% {
-    opacity: 1;
+  70% {
     transform: scale(1.2);
   }
   100% {
-    opacity: 1;
     transform: scale(1);
   }
 }
