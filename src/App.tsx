@@ -6,6 +6,8 @@ import Game from './service/game';
 
 function App({ game }: { game: Game }) {
   const [field, setField] = useState(game.getField().clone());
+  const [score, setScore] = useState(0);
+  const [best, setBest] = useState(0);
 
   const handleKeyDown = (e: KeyboardEvent) => {
     let direction: 'U' | 'D' | 'L' | 'R' | undefined;
@@ -32,6 +34,10 @@ function App({ game }: { game: Game }) {
         game.addRandomCard();
         setField(after.clone());
       }
+
+      // 점수 설정
+      setScore(game.totScore);
+      setBest(game.bestScore);
     }
   };
 
@@ -46,7 +52,7 @@ function App({ game }: { game: Game }) {
 
   return (
     <div className={styles.container}>
-      <Header score={0} best={0} />
+      <Header score={score} best={best} />
       <GameField field={field} />
       <div className={styles.footer}>
         <button className={styles.btn_reset}>RESET</button>
