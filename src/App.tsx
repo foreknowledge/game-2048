@@ -8,6 +8,7 @@ function App({ game }: { game: Game }) {
   const [field, setField] = useState(game.getField().clone());
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(0);
+  const [gameState, setGameState] = useState({ isOver: false, win: false });
 
   const handleKeyDown = (e: KeyboardEvent) => {
     let direction: 'U' | 'D' | 'L' | 'R' | undefined;
@@ -53,9 +54,23 @@ function App({ game }: { game: Game }) {
   return (
     <div className={styles.container}>
       <Header score={score} best={best} />
-      <GameField field={field} />
+      <div className={styles.gameField}>
+        <GameField field={field} />
+        <div
+          className={`${styles.gameOver} ${
+            gameState.isOver ? styles.show : ''
+          }`}
+        >
+          <div className={styles.message}>
+            {gameState.win ? 'You win! 🎉' : 'Game Over 😝'}
+          </div>
+          <button className={styles.button}>
+            {gameState.win ? 'Continue' : 'Try again'}
+          </button>
+        </div>
+      </div>
       <div className={styles.footer}>
-        <button className={styles.btn_reset}>RESET</button>
+        <button className={styles.btnReset}>RESET</button>
       </div>
     </div>
   );
