@@ -9,6 +9,11 @@ export default class Square<T> {
     this.data = Array.from(Array(size), () => Array(size).fill(null));
   }
 
+  restore(other: Square<T>) {
+    this.size = other.size;
+    this.data = other.data;
+  }
+
   getItem(pos: Pos): T | null {
     return this.data[pos.row][pos.col];
   }

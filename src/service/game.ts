@@ -1,7 +1,8 @@
 import Field from './field';
+import { setOffset } from './id_generator';
 
 export default class Game {
-  private field: Field;
+  field: Field;
   totScore = 0;
   bestScore = 0;
 
@@ -13,8 +14,13 @@ export default class Game {
     this.field.init();
   }
 
-  getField(): Field {
-    return this.field;
+  restore(other: Game) {
+    this.totScore = other.totScore;
+    this.bestScore = other.bestScore;
+    this.field.restore(other.field);
+
+    const maxId = Math.max(...this.field.getAllCards().map((card) => card.id));
+    setOffset(maxId);
   }
 
   move(direction: 'U' | 'D' | 'L' | 'R'): [Field, Field] {

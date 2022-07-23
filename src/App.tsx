@@ -5,7 +5,7 @@ import Header from './components/header/header';
 import Game from './service/game';
 
 function App({ game }: { game: Game }) {
-  const [field, setField] = useState(game.getField().clone());
+  const [field, setField] = useState(game.field.clone());
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(0);
   const [gameState, setGameState] = useState({ isOver: false, win: false });
@@ -39,11 +39,23 @@ function App({ game }: { game: Game }) {
       // 점수 설정
       setScore(game.totScore);
       setBest(game.bestScore);
+
+      // 데이터 백업
+      localStorage.backup = JSON.stringify(game);
     }
   };
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
+
+    // 데이터 복원.
+    if (localStorage.backup) {
+      game.restore(JSON.parse(localStorage.backup));
+
+      setScore(game.totScore);
+      setBest(game.bestScore);
+      setField(game.field.clone());
+    }
 
     // cleanup this component
     return () => {

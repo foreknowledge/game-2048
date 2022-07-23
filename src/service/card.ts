@@ -1,12 +1,12 @@
+import { generateId } from './id_generator';
+
 export interface Card {
   id: number;
   num: number;
 }
 
-let genCount = 0;
-
 export function generateCard(num?: number): Card {
-  const id = ++genCount;
+  const id = generateId();
 
   const random = getRandomInt(10);
   // 10% 확률로 4, 90% 확률로 2

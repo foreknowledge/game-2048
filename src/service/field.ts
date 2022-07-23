@@ -21,6 +21,12 @@ export default class Field {
     this.addRandomCard();
   }
 
+  restore(other: Field) {
+    this.size = other.size;
+    this.square.restore(other.square);
+    // mergeLogs는 임시 데이터이므로 복원하지 않는다.
+  }
+
   /**
    * 빈 공간에 새로운 카드를 추가한다.
    */
