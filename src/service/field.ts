@@ -21,6 +21,13 @@ export default class Field {
     this.addRandomCard();
   }
 
+  reset() {
+    this.square = new Square(this.size);
+
+    this.addRandomCard();
+    this.addRandomCard();
+  }
+
   restore(other: Field) {
     this.size = other.size;
     this.square.restore(other.square);

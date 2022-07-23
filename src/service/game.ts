@@ -14,6 +14,11 @@ export default class Game {
     this.field.init();
   }
 
+  reset() {
+    this.totScore = 0;
+    this.field.reset();
+  }
+
   restore(other: Game) {
     this.totScore = other.totScore;
     this.bestScore = other.bestScore;

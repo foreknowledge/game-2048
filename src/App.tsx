@@ -63,6 +63,13 @@ function App({ game }: { game: Game }) {
     };
   }, []);
 
+  const onReset = () => {
+    game.reset();
+    localStorage.backup = JSON.stringify(game);
+
+    window.location.reload();
+  };
+
   return (
     <div className={styles.container}>
       <Header score={score} best={best} />
@@ -82,7 +89,9 @@ function App({ game }: { game: Game }) {
         </div>
       </div>
       <div className={styles.footer}>
-        <button className={styles.btnReset}>RESET</button>
+        <button className={styles.btnReset} onClick={onReset}>
+          RESET
+        </button>
       </div>
     </div>
   );
