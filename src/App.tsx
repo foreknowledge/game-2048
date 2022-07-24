@@ -77,6 +77,15 @@ function App({ game }: { game: Game }) {
     window.location.reload();
   };
 
+  const onBtnClick = () => {
+    if (gameState.win) {
+      game.changeScoreMode();
+      setGameState({ isOver: false, win: false });
+    } else {
+      onReset();
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Header score={score} best={best} />
@@ -90,7 +99,7 @@ function App({ game }: { game: Game }) {
           <div className={styles.message}>
             {gameState.win ? 'You win! 🎉' : 'Game Over 😝'}
           </div>
-          <button className={styles.button}>
+          <button className={styles.button} onClick={onBtnClick}>
             {gameState.win ? 'Continue' : 'Try again'}
           </button>
         </div>

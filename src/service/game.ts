@@ -5,6 +5,7 @@ export default class Game {
   field: Field;
   totScore = 0;
   bestScore = 0;
+  private mode: 'tile' | 'score' = 'tile';
 
   constructor(size: number) {
     this.field = new Field(size);
@@ -16,12 +17,14 @@ export default class Game {
 
   reset() {
     this.totScore = 0;
+    this.mode = 'tile';
     this.field.reset();
   }
 
   restore(other: Game) {
     this.totScore = other.totScore;
     this.bestScore = other.bestScore;
+    this.mode = other.mode;
     this.field.restore(other.field);
 
     const maxId = Math.max(...this.field.getAllCards().map((card) => card.id));
@@ -48,8 +51,11 @@ export default class Game {
   }
 
   isGameOver(): { isOver: boolean; win: boolean } {
-    // 2048 타일이 만들어졌으면 게임 승리.
-    if (this.field.getAllCards().some((card) => card.num == 2048)) {
+    // 타일 모드인 경우, 2048 타일이 만들어졌으면 게임 승리.
+    if (
+      this.mode === 'tile' &&
+      this.field.getAllCards().some((card) => card.num == 2048)
+    ) {
       return { isOver: true, win: true };
     }
 
@@ -65,6 +71,10 @@ export default class Game {
 
     // 움직일 타일이 없으면 게임 종료.
     return { isOver: true, win: false };
+  }
+
+  changeScoreMode() {
+    this.mode = 'score';
   }
 
   addRandomCard() {
