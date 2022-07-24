@@ -4,6 +4,7 @@ import GameField from './components/game_field/game_field';
 import Header from './components/header/header';
 import Game from './service/game';
 
+let isGameOver = false;
 function App({ game }: { game: Game }) {
   const [field, setField] = useState(game.field.clone());
   const [gameStatus, setGameStatus] = useState({
@@ -30,7 +31,7 @@ function App({ game }: { game: Game }) {
         break;
     }
 
-    if (!direction) return;
+    if (!direction || isGameOver) return;
 
     const [before, after] = game.move(direction);
 
@@ -40,7 +41,9 @@ function App({ game }: { game: Game }) {
     setField(game.field.clone());
 
     // 현재 게임 정보 설정
-    setGameStatus(game.getStatus());
+    const status = game.getStatus();
+    setGameStatus(status);
+    isGameOver = status.isOver;
 
     // 데이터 백업
     localStorage.backup = JSON.stringify(game);
@@ -74,6 +77,7 @@ function App({ game }: { game: Game }) {
     if (gameStatus.win) {
       game.changeScoreMode();
       setGameStatus({ ...gameStatus, isOver: false, win: false });
+      isGameOver = false;
     } else {
       onReset();
     }
