@@ -5,48 +5,52 @@ import Header from './components/header/header';
 import Game from './service/game';
 
 function App({ game }: { game: Game }) {
+  const [direction, setDirection] = useState<
+    'U' | 'D' | 'L' | 'R' | undefined
+  >();
   const [field, setField] = useState(game.field.clone());
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(0);
   const [gameState, setGameState] = useState({ isOver: false, win: false });
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    let direction: 'U' | 'D' | 'L' | 'R' | undefined;
     switch (e.key) {
       case 'ArrowUp':
-        direction = 'U';
+        setDirection('U');
         break;
       case 'ArrowDown':
-        direction = 'D';
+        setDirection('D');
         break;
       case 'ArrowLeft':
-        direction = 'L';
+        setDirection('L');
         break;
       case 'ArrowRight':
-        direction = 'R';
+        setDirection('R');
         break;
     }
-
-    if (direction) {
-      const [before, after] = game.move(direction);
-
-      // 이동한 경우에만 새로운 카드 추가
-      if (!before.equals(after)) {
-        game.addRandomCard();
-        setField(after.clone());
-      }
-
-      // 게임 종료 확인
-      setGameState(game.isGameOver());
-
-      // 점수 설정
-      setScore(game.totScore);
-      setBest(game.bestScore);
-
-      // 데이터 백업
-      localStorage.backup = JSON.stringify(game);
-    }
   };
+
+  useEffect(() => {
+    if (!direction || gameState.isOver) return;
+
+    const [before, after] = game.move(direction);
+
+    // 이동한 경우에만 새로운 카드 추가
+    if (!before.equals(after)) {
+      game.addRandomCard();
+      setField(after.clone());
+    }
+
+    // 게임 종료 확인
+    setGameState(game.isGameOver());
+
+    // 점수 설정
+    setScore(game.totScore);
+    setBest(game.bestScore);
+
+    // 데이터 백업
+    localStorage.backup = JSON.stringify(game);
+  }, [direction]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
