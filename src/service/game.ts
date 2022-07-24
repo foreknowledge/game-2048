@@ -33,7 +33,7 @@ export default class Game {
     this.field.clearMergeLogs();
 
     const before = this.field.clone();
-    this.moveField(direction);
+    this.field.moveField(direction);
 
     // 점수 계산
     const score = this.calcScore();
@@ -47,25 +47,28 @@ export default class Game {
     return [before, this.field];
   }
 
-  addRandomCard() {
-    this.field.addRandomCard();
+  isGameOver(): { isOver: boolean; win: boolean } {
+    // 2048 타일이 만들어졌으면 게임 승리.
+    if (this.field.getAllCards().some((card) => card.num == 2048)) {
+      return { isOver: true, win: true };
+    }
+
+    // 움직일 타일이 있으면 게임 진행.
+    const orgField = this.field.clone();
+    for (let dir of ['U', 'R', 'D', 'L']) {
+      const targetField = orgField.clone();
+      targetField.moveField(dir as 'U' | 'D' | 'L' | 'R');
+      if (!targetField.equals(orgField)) {
+        return { isOver: false, win: false };
+      }
+    }
+
+    // 움직일 타일이 없으면 게임 종료.
+    return { isOver: true, win: false };
   }
 
-  private moveField(direction: 'U' | 'D' | 'L' | 'R') {
-    switch (direction) {
-      case 'U':
-        this.field.moveUp();
-        break;
-      case 'D':
-        this.field.moveDown();
-        break;
-      case 'L':
-        this.field.moveLeft();
-        break;
-      case 'R':
-        this.field.moveRight();
-        break;
-    }
+  addRandomCard() {
+    this.field.addRandomCard();
   }
 
   private calcScore(): number {

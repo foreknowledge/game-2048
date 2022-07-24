@@ -36,6 +36,9 @@ function App({ game }: { game: Game }) {
         setField(after.clone());
       }
 
+      // 게임 종료 확인
+      setGameState(game.isGameOver());
+
       // 점수 설정
       setScore(game.totScore);
       setBest(game.bestScore);

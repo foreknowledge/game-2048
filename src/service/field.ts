@@ -71,28 +71,45 @@ export default class Field {
     return this.mergeLogs[cardId];
   }
 
-  moveUp() {
+  moveField(direction: 'U' | 'D' | 'L' | 'R') {
+    switch (direction) {
+      case 'U':
+        this.moveUp();
+        break;
+      case 'D':
+        this.moveDown();
+        break;
+      case 'L':
+        this.moveLeft();
+        break;
+      case 'R':
+        this.moveRight();
+        break;
+    }
+  }
+
+  private moveUp() {
     this.square.getCols().forEach((col, idx) => {
       const newCol = this.alignLeft(this.mergeLeft(col));
       this.square.setCol(idx, newCol);
     });
   }
 
-  moveDown() {
+  private moveDown() {
     this.square.getCols().forEach((col, idx) => {
       const newCol = this.alignRight(this.mergeRight(col));
       this.square.setCol(idx, newCol);
     });
   }
 
-  moveLeft() {
+  private moveLeft() {
     this.square.getRows().forEach((row, idx) => {
       const newRow = this.alignLeft(this.mergeLeft(row));
       this.square.setRow(idx, newRow);
     });
   }
 
-  moveRight() {
+  private moveRight() {
     this.square.getRows().forEach((row, idx) => {
       const newRow = this.alignRight(this.mergeRight(row));
       this.square.setRow(idx, newRow);

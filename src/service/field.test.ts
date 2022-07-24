@@ -9,7 +9,7 @@ describe('Testing move() in Field', () => {
     field.setCard(generateCard(2), { row: 2, col: 0 });
     field.setCard(generateCard(2), { row: 3, col: 0 });
 
-    field.moveUp();
+    field.moveField('U');
     expect(field.getCard({ row: 0, col: 0 })!.num).toBe(4);
     expect(field.getCard({ row: 1, col: 0 })!.num).toBe(4);
   });
@@ -21,7 +21,7 @@ describe('Testing move() in Field', () => {
     field.setCard(generateCard(2), { row: 2, col: 0 });
     field.setCard(generateCard(2), { row: 3, col: 0 });
 
-    field.moveDown();
+    field.moveField('D');
     expect(field.getCard({ row: 2, col: 0 })!.num).toBe(4);
     expect(field.getCard({ row: 3, col: 0 })!.num).toBe(4);
   });
@@ -33,7 +33,7 @@ describe('Testing move() in Field', () => {
     field.setCard(generateCard(2), { row: 0, col: 2 });
     field.setCard(generateCard(2), { row: 0, col: 3 });
 
-    field.moveLeft();
+    field.moveField('L');
     expect(field.getCard({ row: 0, col: 0 })!.num).toBe(4);
     expect(field.getCard({ row: 0, col: 1 })!.num).toBe(4);
   });
@@ -45,7 +45,7 @@ describe('Testing move() in Field', () => {
     field.setCard(generateCard(2), { row: 0, col: 2 });
     field.setCard(generateCard(2), { row: 0, col: 3 });
 
-    field.moveRight();
+    field.moveField('R');
     expect(field.getCard({ row: 0, col: 2 })!.num).toBe(4);
     expect(field.getCard({ row: 0, col: 3 })!.num).toBe(4);
   });
