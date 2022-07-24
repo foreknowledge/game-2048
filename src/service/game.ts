@@ -3,8 +3,8 @@ import { setOffset } from './id_generator';
 
 export default class Game {
   field: Field;
-  totScore = 0;
-  bestScore = 0;
+  private totScore = 0;
+  private bestScore = 0;
   private mode: 'tile' | 'score' = 'tile';
 
   constructor(size: number) {
@@ -38,7 +38,7 @@ export default class Game {
     const before = this.field.clone();
     this.field.moveField(direction);
 
-    // 점수 계산
+    // 점수 갱신
     const score = this.calcScore();
     if (score) {
       this.totScore += score;
@@ -50,13 +50,20 @@ export default class Game {
     return [before, this.field];
   }
 
-  isGameOver(): { isOver: boolean; win: boolean } {
+  getStatus(): { score: number; best: number; isOver: boolean; win: boolean } {
+    const status = {
+      score: this.totScore,
+      best: this.bestScore,
+      isOver: false,
+      win: false,
+    };
+
     // 타일 모드인 경우, 2048 타일이 만들어졌으면 게임 승리.
     if (
       this.mode === 'tile' &&
       this.field.getAllCards().some((card) => card.num == 2048)
     ) {
-      return { isOver: true, win: true };
+      return { ...status, isOver: true, win: true };
     }
 
     // 움직일 타일이 있으면 게임 진행.
@@ -65,12 +72,12 @@ export default class Game {
       const targetField = orgField.clone();
       targetField.moveField(dir as 'U' | 'D' | 'L' | 'R');
       if (!targetField.equals(orgField)) {
-        return { isOver: false, win: false };
+        return { ...status, isOver: false };
       }
     }
 
     // 움직일 타일이 없으면 게임 종료.
-    return { isOver: true, win: false };
+    return status;
   }
 
   changeScoreMode() {

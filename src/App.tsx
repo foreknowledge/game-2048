@@ -5,52 +5,46 @@ import Header from './components/header/header';
 import Game from './service/game';
 
 function App({ game }: { game: Game }) {
-  const [direction, setDirection] = useState<
-    'U' | 'D' | 'L' | 'R' | undefined
-  >();
   const [field, setField] = useState(game.field.clone());
-  const [score, setScore] = useState(0);
-  const [best, setBest] = useState(0);
-  const [gameState, setGameState] = useState({ isOver: false, win: false });
+  const [gameStatus, setGameStatus] = useState({
+    score: 0,
+    best: 0,
+    isOver: false,
+    win: false,
+  });
 
   const handleKeyDown = (e: KeyboardEvent) => {
+    let direction: 'U' | 'D' | 'L' | 'R' | undefined;
     switch (e.key) {
       case 'ArrowUp':
-        setDirection('U');
+        direction = 'U';
         break;
       case 'ArrowDown':
-        setDirection('D');
+        direction = 'D';
         break;
       case 'ArrowLeft':
-        setDirection('L');
+        direction = 'L';
         break;
       case 'ArrowRight':
-        setDirection('R');
+        direction = 'R';
         break;
     }
-  };
 
-  useEffect(() => {
-    if (!direction || gameState.isOver) return;
+    if (!direction) return;
 
     const [before, after] = game.move(direction);
 
-    // 이동한 경우에만 새로운 카드 추가
-    if (!before.equals(after)) {
-      game.addRandomCard();
-      setField(after.clone());
-    }
+    if (before.equals(after)) return;
 
-    // 게임 종료 확인
-    setGameState(game.isGameOver());
+    game.addRandomCard();
+    setField(game.field.clone());
 
-    // 점수 설정
-    setScore(game.totScore);
-    setBest(game.bestScore);
+    // 현재 게임 정보 설정
+    setGameStatus(game.getStatus());
 
     // 데이터 백업
     localStorage.backup = JSON.stringify(game);
-  }, [direction]);
+  };
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -59,8 +53,7 @@ function App({ game }: { game: Game }) {
     if (localStorage.backup) {
       game.restore(JSON.parse(localStorage.backup));
 
-      setScore(game.totScore);
-      setBest(game.bestScore);
+      setGameStatus(game.getStatus());
       setField(game.field.clone());
     }
 
@@ -78,9 +71,9 @@ function App({ game }: { game: Game }) {
   };
 
   const onBtnClick = () => {
-    if (gameState.win) {
+    if (gameStatus.win) {
       game.changeScoreMode();
-      setGameState({ isOver: false, win: false });
+      setGameStatus({ ...gameStatus, isOver: false, win: false });
     } else {
       onReset();
     }
@@ -88,19 +81,19 @@ function App({ game }: { game: Game }) {
 
   return (
     <div className={styles.container}>
-      <Header score={score} best={best} />
+      <Header score={gameStatus.score} best={gameStatus.best} />
       <div className={styles.gameField}>
         <GameField field={field} />
         <div
           className={`${styles.gameOver} ${
-            gameState.isOver ? styles.show : ''
+            gameStatus.isOver ? styles.show : ''
           }`}
         >
           <div className={styles.message}>
-            {gameState.win ? 'You win! 🎉' : 'Game Over 😝'}
+            {gameStatus.win ? 'You win! 🎉' : 'Game Over 😝'}
           </div>
           <button className={styles.button} onClick={onBtnClick}>
-            {gameState.win ? 'Continue' : 'Try again'}
+            {gameStatus.win ? 'Continue' : 'Try again'}
           </button>
         </div>
       </div>
