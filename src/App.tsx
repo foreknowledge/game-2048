@@ -14,42 +14,42 @@ function App({ game }: { game: Game }) {
     win: false,
   });
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    let direction: 'U' | 'D' | 'L' | 'R' | undefined;
-    switch (e.key) {
-      case 'ArrowUp':
-        direction = 'U';
-        break;
-      case 'ArrowDown':
-        direction = 'D';
-        break;
-      case 'ArrowLeft':
-        direction = 'L';
-        break;
-      case 'ArrowRight':
-        direction = 'R';
-        break;
-    }
-
-    if (!direction || isGameOver) return;
-
-    const [before, after] = game.move(direction);
-
-    if (before.equals(after)) return;
-
-    game.addRandomCard();
-    setField(game.field.clone());
-
-    // 현재 게임 정보 설정
-    const status = game.getStatus();
-    setGameStatus(status);
-    isGameOver = status.isOver;
-
-    // 데이터 백업
-    localStorage.backup = JSON.stringify(game);
-  };
-
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      let direction: 'U' | 'D' | 'L' | 'R' | undefined;
+      switch (e.key) {
+        case 'ArrowUp':
+          direction = 'U';
+          break;
+        case 'ArrowDown':
+          direction = 'D';
+          break;
+        case 'ArrowLeft':
+          direction = 'L';
+          break;
+        case 'ArrowRight':
+          direction = 'R';
+          break;
+      }
+
+      if (!direction || isGameOver) return;
+
+      const [before, after] = game.move(direction);
+
+      if (before.equals(after)) return;
+
+      game.addRandomCard();
+      setField(game.field.clone());
+
+      // 현재 게임 정보 설정
+      const status = game.getStatus();
+      setGameStatus(status);
+      isGameOver = status.isOver;
+
+      // 데이터 백업
+      localStorage.backup = JSON.stringify(game);
+    };
+
     window.addEventListener('keydown', handleKeyDown);
 
     // 데이터 복원.
@@ -64,7 +64,7 @@ function App({ game }: { game: Game }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [game]);
 
   const onReset = () => {
     game.reset();

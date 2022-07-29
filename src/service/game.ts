@@ -61,7 +61,7 @@ export default class Game {
     // 타일 모드인 경우, 2048 타일이 만들어졌으면 게임 승리.
     if (
       this.mode === 'tile' &&
-      this.field.getAllCards().some((card) => card.num == 2048)
+      this.field.getAllCards().some((card) => card.num === 2048)
     ) {
       return { ...status, isOver: true, win: true };
     }
