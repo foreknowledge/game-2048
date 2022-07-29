@@ -72,12 +72,12 @@ export default class Game {
       const targetField = orgField.clone();
       targetField.moveField(dir as 'U' | 'D' | 'L' | 'R');
       if (!targetField.equals(orgField)) {
-        return { ...status, isOver: false };
+        return status;
       }
     }
 
     // 움직일 타일이 없으면 게임 종료.
-    return status;
+    return { ...status, isOver: true };
   }
 
   changeScoreMode() {
