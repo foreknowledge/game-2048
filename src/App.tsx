@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './App.module.css';
 import GameField from './components/game_field/game_field';
 import Header from './components/header/header';
@@ -7,32 +7,12 @@ import Game from './service/game';
 let isGameOver = false;
 function App({ game }: { game: Game }) {
   const [field, setField] = useState(game.field.clone());
-  const [gameStatus, setGameStatus] = useState({
-    score: 0,
-    best: 0,
-    isOver: false,
-    win: false,
-  });
+  const [gameStatus, setGameStatus] = useState(game.getStatus());
+  const [gameScores, setGameScores] = useState({ score: 0, best: 0 });
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      let direction: 'U' | 'D' | 'L' | 'R' | undefined;
-      switch (e.key) {
-        case 'ArrowUp':
-          direction = 'U';
-          break;
-        case 'ArrowDown':
-          direction = 'D';
-          break;
-        case 'ArrowLeft':
-          direction = 'L';
-          break;
-        case 'ArrowRight':
-          direction = 'R';
-          break;
-      }
-
-      if (!direction || isGameOver) return;
+  const handleChangeDirection = useCallback(
+    (direction: 'U' | 'D' | 'L' | 'R') => {
+      if (isGameOver) return;
 
       const [before, after] = game.move(direction);
 
@@ -42,12 +22,23 @@ function App({ game }: { game: Game }) {
       setField(game.field.clone());
 
       // 현재 게임 정보 설정
-      const status = game.getStatus();
-      setGameStatus(status);
-      isGameOver = status.isOver;
+      const gameStatus = game.getStatus();
+      setGameStatus(gameStatus);
+      setGameScores(game.getScores());
+      isGameOver = gameStatus !== 'playing';
 
       // 데이터 백업
       localStorage.backup = JSON.stringify(game);
+    },
+    [game]
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const direction = getKeyDirection(e);
+
+      if (!direction) return;
+      handleChangeDirection(direction);
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -56,7 +47,9 @@ function App({ game }: { game: Game }) {
     if (localStorage.backup) {
       game.restore(JSON.parse(localStorage.backup));
 
-      setGameStatus(game.getStatus());
+      const gameStatus = game.getStatus();
+      setGameScores(game.getScores());
+      isGameOver = gameStatus !== 'playing';
       setField(game.field.clone());
     }
 
@@ -64,7 +57,7 @@ function App({ game }: { game: Game }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [game]);
+  }, [game, handleChangeDirection]);
 
   const onReset = () => {
     game.reset();
@@ -74,9 +67,9 @@ function App({ game }: { game: Game }) {
   };
 
   const onBtnClick = () => {
-    if (gameStatus.win) {
+    if (gameStatus == 'win') {
       game.changeScoreMode();
-      setGameStatus({ ...gameStatus, isOver: false, win: false });
+      setGameStatus('playing');
       isGameOver = false;
     } else {
       onReset();
@@ -85,19 +78,19 @@ function App({ game }: { game: Game }) {
 
   return (
     <div className={styles.container}>
-      <Header score={gameStatus.score} best={gameStatus.best} />
+      <Header score={gameScores.score} best={gameScores.best} />
       <div className={styles.gameField}>
         <GameField field={field} />
         <div
           className={`${styles.gameOver} ${
-            gameStatus.isOver ? styles.show : ''
+            gameStatus !== 'playing' ? styles.show : ''
           }`}
         >
           <div className={styles.message}>
-            {gameStatus.win ? 'You win! 🎉' : 'Game Over 😝'}
+            {gameStatus == 'win' ? 'You win! 🎉' : 'Game Over 😝'}
           </div>
           <button className={styles.button} onClick={onBtnClick}>
-            {gameStatus.win ? 'Continue' : 'Try again'}
+            {gameStatus == 'win' ? 'Continue' : 'Try again'}
           </button>
         </div>
       </div>
@@ -111,3 +104,16 @@ function App({ game }: { game: Game }) {
 }
 
 export default App;
+
+function getKeyDirection(e: KeyboardEvent): 'U' | 'D' | 'L' | 'R' | undefined {
+  switch (e.key) {
+    case 'ArrowUp':
+      return 'U';
+    case 'ArrowDown':
+      return 'D';
+    case 'ArrowLeft':
+      return 'L';
+    case 'ArrowRight':
+      return 'R';
+  }
+}
