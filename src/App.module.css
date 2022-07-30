@@ -24,12 +24,24 @@
   align-items: center;
   background-color: pointColorBG;
   border-radius: 10px;
-  opacity: 0;
-  transition: opacity 300ms ease-out;
 }
 
-.gameOver.show {
-  opacity: 1;
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .message {

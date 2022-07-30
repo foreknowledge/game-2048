@@ -9,6 +9,7 @@ function App({ game }: { game: Game }) {
   const [field, setField] = useState(game.field.clone());
   const [gameStatus, setGameStatus] = useState(game.getStatus());
   const [gameScores, setGameScores] = useState({ score: 0, best: 0 });
+  const [isVisible, setVisible, fadeProps] = useFade();
 
   const handleChangeDirection = useCallback(
     (direction: 'U' | 'D' | 'L' | 'R') => {
@@ -26,6 +27,7 @@ function App({ game }: { game: Game }) {
       setGameStatus(gameStatus);
       setGameScores(game.getScores());
       isGameOver = gameStatus !== 'playing';
+      setVisible(isGameOver);
 
       // 데이터 백업
       localStorage.backup = JSON.stringify(game);
@@ -50,6 +52,7 @@ function App({ game }: { game: Game }) {
       const gameStatus = game.getStatus();
       setGameScores(game.getScores());
       isGameOver = gameStatus !== 'playing';
+      setVisible(isGameOver);
       setField(game.field.clone());
     }
 
@@ -67,10 +70,11 @@ function App({ game }: { game: Game }) {
   };
 
   const onBtnClick = () => {
-    if (gameStatus == 'win') {
+    if (gameStatus === 'win') {
       game.changeScoreMode();
       setGameStatus('playing');
       isGameOver = false;
+      setVisible(isGameOver);
     } else {
       onReset();
     }
@@ -81,18 +85,16 @@ function App({ game }: { game: Game }) {
       <Header score={gameScores.score} best={gameScores.best} />
       <div className={styles.gameField}>
         <GameField field={field} />
-        <div
-          className={`${styles.gameOver} ${
-            gameStatus !== 'playing' ? styles.show : ''
-          }`}
-        >
-          <div className={styles.message}>
-            {gameStatus == 'win' ? 'You win! 🎉' : 'Game Over 😝'}
+        {isVisible && (
+          <div className={styles.gameOver} {...fadeProps}>
+            <div className={styles.message}>
+              {gameStatus === 'win' ? 'You win! 🎉' : 'Game Over 😝'}
+            </div>
+            <button className={styles.button} onClick={onBtnClick}>
+              {gameStatus === 'win' ? 'Continue' : 'Try again'}
+            </button>
           </div>
-          <button className={styles.button} onClick={onBtnClick}>
-            {gameStatus == 'win' ? 'Continue' : 'Try again'}
-          </button>
-        </div>
+        )}
       </div>
       <div className={styles.footer}>
         <button className={styles.btnReset} onClick={onReset}>
@@ -104,6 +106,24 @@ function App({ game }: { game: Game }) {
 }
 
 export default App;
+
+function useFade() {
+  const [show, setShow] = useState(false);
+  const [isVisible, setVisible] = useState(show);
+
+  useEffect(() => {
+    if (show) setVisible(true);
+  }, [show]);
+
+  const fadeProps = {
+    style: { animation: `${show ? styles.fadeIn : styles.fadeOut} .3s` },
+    onAnimationEnd: () => {
+      if (!show) setVisible(false);
+    },
+  };
+
+  return [isVisible, setShow, fadeProps] as const;
+}
 
 function getKeyDirection(e: KeyboardEvent): 'U' | 'D' | 'L' | 'R' | undefined {
   switch (e.key) {
