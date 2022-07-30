@@ -1,10 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Field from '../../service/field';
 import GameCard, { UICard } from '../game_card/game_card';
 import styles from './game_field.module.css';
 
+let tileSize = 0;
 const GameField = ({ field }: { field: Field }) => {
-  const [tileSize, setTileSize] = useState(0);
   const [uiCards, setUICards] = useState<UICard[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -44,13 +44,11 @@ const GameField = ({ field }: { field: Field }) => {
     });
 
     setUICards([...mergedUICards, ...newUICards]);
-  }, [gridRef.current, field]);
+  }, [tileSize, field]);
 
-  useLayoutEffect(() => {
-    // tile size가 결정된 후에 카드를 그려야 하므로 useLayoutEffect 안에서 tile size를 설정한다.
-    const newTileSize =
-      gridRef.current?.children[0].getBoundingClientRect().width ?? 0;
-    setTileSize(newTileSize);
+  useEffect(() => {
+    // tile size 계산
+    tileSize = gridRef.current?.children[0].getBoundingClientRect().width ?? 0;
   }, []);
 
   return (
