@@ -5,6 +5,7 @@
   height: 100vh;
   margin: 0 auto;
   padding: 1em;
+  touch-action: none;
 }
 
 .gameField {
@@ -73,4 +74,13 @@
   font-weight: bold;
   font-size: 1.3rem;
   border-radius: 5px;
+}
+
+@media screen and (max-width: 48rem) {
+  .container {
+    width: 22em;
+  }
+  .message {
+    font-size: 2.8em;
+  }
 }
