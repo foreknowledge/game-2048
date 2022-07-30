@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { TouchEvent, useCallback, useEffect, useState } from 'react';
 import styles from './App.module.css';
 import GameField from './components/game_field/game_field';
 import Header from './components/header/header';
@@ -80,11 +80,28 @@ function App({ game }: { game: Game }) {
     }
   };
 
+  const handleTouchMove = useCallback(
+    (e: TouchEvent<HTMLTableSectionElement>) => {
+      if (!xDown || !yDown || isGameOver) return;
+
+      handleChangeDirection(getTouchDirection(e));
+
+      // reset values
+      xDown = 0;
+      yDown = 0;
+    },
+    []
+  );
+
   return (
     <div className={styles.container}>
       <Header score={gameScores.score} best={gameScores.best} />
       <div className={styles.gameField}>
-        <GameField field={field} />
+        <GameField
+          field={field}
+          onFieldTouchStarted={handleTouchStart}
+          onFieldTouchMoved={handleTouchMove}
+        />
         {isVisible && (
           <div className={styles.gameOver} {...fadeProps}>
             <div className={styles.message}>
@@ -135,5 +152,30 @@ function getKeyDirection(e: KeyboardEvent): 'U' | 'D' | 'L' | 'R' | undefined {
       return 'L';
     case 'ArrowRight':
       return 'R';
+  }
+}
+
+let xDown: number = 0;
+let yDown: number = 0;
+
+function handleTouchStart(e: TouchEvent<HTMLTableSectionElement>) {
+  const firstTouch = e.targetTouches[0];
+  xDown = firstTouch.clientX;
+  yDown = firstTouch.clientY;
+}
+
+function getTouchDirection(e: TouchEvent<HTMLTableSectionElement>) {
+  var xUp = e.targetTouches[0].clientX;
+  var yUp = e.targetTouches[0].clientY;
+
+  var xDiff = xDown - xUp;
+  var yDiff = yDown - yUp;
+
+  if (Math.abs(xDiff) > Math.abs(yDiff)) {
+    if (xDiff > 0) return 'L';
+    else return 'R';
+  } else {
+    if (yDiff > 0) return 'U';
+    else return 'D';
   }
 }

@@ -1,10 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { TouchEvent, useEffect, useRef, useState } from 'react';
 import Field from '../../service/field';
 import GameCard, { UICard } from '../game_card/game_card';
 import styles from './game_field.module.css';
 
+type Props = {
+  field: Field;
+  onFieldTouchStarted: (e: TouchEvent<HTMLTableSectionElement>) => void;
+  onFieldTouchMoved: (e: TouchEvent<HTMLTableSectionElement>) => void;
+};
+
 let tileSize = 0;
-const GameField = ({ field }: { field: Field }) => {
+const GameField = ({
+  field,
+  onFieldTouchStarted,
+  onFieldTouchMoved,
+}: Props) => {
   const [uiCards, setUICards] = useState<UICard[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -52,7 +62,11 @@ const GameField = ({ field }: { field: Field }) => {
   }, []);
 
   return (
-    <section className={styles.gameField}>
+    <section
+      onTouchStart={onFieldTouchStarted}
+      onTouchMove={onFieldTouchMoved}
+      className={styles.gameField}
+    >
       <div
         ref={gridRef}
         className={styles.gameGrid}
