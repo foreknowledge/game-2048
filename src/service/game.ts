@@ -5,6 +5,7 @@ export default class Game {
   field: Field;
   private totScore = 0;
   private bestScore = 0;
+  // 게임 모드: '2048 타일 만들기' | '최고 점수 만들기'
   private mode: 'tile' | 'score' = 'tile';
 
   constructor(size: number) {
