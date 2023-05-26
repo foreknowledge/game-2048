@@ -1,6 +1,17 @@
 # 2048 게임
 
-https://enjoy-2048-game.netlify.app/ 에서 직접 플레이 해 보세요!
+### 실행 방법
+
+https://enjoy-2048-game.netlify.app/ 에서 플레이
+
+혹은
+
+본 프로젝트를 클론 받아 아래 명령어로 앱 실행
+
+```bash
+> yarn
+> yarn start
+```
 
 ### 게임 방법
 
@@ -11,6 +22,8 @@ https://enjoy-2048-game.netlify.app/ 에서 직접 플레이 해 보세요!
 
 - 키보드 방향키
 - 상하좌우 스와이프
+
+## 직접 실행 해 보기
 
 ## 미리보기
 
