@@ -32,7 +32,7 @@ function App({ game }: { game: Game }) {
       // 데이터 백업
       localStorage.backup = JSON.stringify(game);
     },
-    [game]
+    [game, setVisible]
   );
 
   useEffect(() => {
@@ -60,7 +60,7 @@ function App({ game }: { game: Game }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [game, handleChangeDirection]);
+  }, [game, handleChangeDirection, setVisible]);
 
   const onReset = () => {
     game.reset();
@@ -90,7 +90,7 @@ function App({ game }: { game: Game }) {
       xDown = 0;
       yDown = 0;
     },
-    []
+    [handleChangeDirection]
   );
 
   return (
