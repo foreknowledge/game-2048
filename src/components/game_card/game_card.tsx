@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './game_card.module.css';
 
 export type UICard = {
@@ -11,30 +11,25 @@ export type UICard = {
 };
 
 const GameCard = ({ uiCard }: { uiCard: UICard }) => {
-  const divRef = useRef<HTMLDivElement>(null);
   const newAnim = uiCard.type === 'new' ? styles.appear : '';
   const mergeAnim = uiCard.type === 'merge' ? styles.merge : '';
+  const [pos, setPos] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
-    if (!divRef.current) return;
-    const div = divRef.current;
-
     // 카드 위치 이동
-    setTimeout(() => {
-      div.style.top = `${uiCard.top}px`;
-      div.style.left = `${uiCard.left}px`;
-    });
+    setPos({ top: uiCard.top, left: uiCard.left });
   }, [uiCard]);
 
   return (
     <div
-      ref={divRef}
       className={`${styles.card} ${getCardStyle(
         uiCard.num
       )} ${newAnim} ${mergeAnim}`}
       style={{
         width: uiCard.size,
         height: uiCard.size,
+        top: `${pos.top}px`,
+        left: `${pos.left}px`,
       }}
     >
       {uiCard.num}

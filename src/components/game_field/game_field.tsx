@@ -1,4 +1,10 @@
-import { TouchEvent, useEffect, useRef, useState } from 'react';
+import {
+  TouchEvent,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import Field from '../../service/field';
 import GameCard, { UICard } from '../game_card/game_card';
 import styles from './game_field.module.css';
@@ -18,7 +24,7 @@ const GameField = ({
   const [uiCards, setUICards] = useState<UICard[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!gridRef.current) return;
 
     const grid = gridRef.current;
@@ -54,7 +60,7 @@ const GameField = ({
     });
 
     setUICards([...mergedUICards, ...newUICards]);
-  }, [tileSize, field]);
+  }, [field]);
 
   useEffect(() => {
     // tile size 계산
